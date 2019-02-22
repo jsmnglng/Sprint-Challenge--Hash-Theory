@@ -10,18 +10,36 @@ char **reconstruct_trip(Ticket **tickets, int length)
   char **route = malloc(length * sizeof(char *));
 
   // YOUR CODE HERE
+  for (int i = 0; i < length; i++)
+  {
+    // set source as key
+    // set destination as value
+    char *tix_source = tickets[i]->source;
+    char *tix_destination = tickets[i]->destination;
 
+    hash_table_insert(ht, tix_source, tix_destination);
+  }
+
+  // set starting location
+  route[0] = hash_table_retrieve(ht, "NONE");
+
+  for (int i = 1; i < length; i++)
+  {
+    // search for prev location(dest as new src) and set it to ith location
+    route[i] = hash_table_retrieve(ht, route[i - 1]);
+  }
+
+  destroy_hash_table(ht);
   return route;
 }
 
 void print_route(char **route, int length)
 {
-  for (int i = 0; i < length; i++) {
+  for (int i = 0; i < length; i++)
+  {
     printf("%s\n", route[i]);
   }
 }
-
-
 
 #ifndef TESTING
 int main(void)
