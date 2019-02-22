@@ -14,19 +14,17 @@ Answer *get_indices_of_item_weights(int *weights, int length, int limit)
     // value: index
     if (hash_table_retrieve(ht, weights[i]) != -1)
     {
-      printf("retrieve: %i\n", hash_table_retrieve(ht, weights[i]));
-      printf("weights[i]: %i, i: %i\n", weights[i], i);
       Answer *output = malloc(sizeof(Answer *));
 
       output->index_1 = i;
       output->index_2 = hash_table_retrieve(ht, weights[i]); // smaller index
 
+      destroy_hash_table(ht);
       return output;
     }
 
     // populate ht with difference bet limit - weights[i] as keys and i as values
     hash_table_insert(ht, (limit - weights[i]), i);
-    printf("TOUCHED i= %i\n", i);
   }
 
   return NULL;
